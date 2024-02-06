@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -44,5 +45,17 @@ class HomeController extends Controller
             "jajan_by_invoices" => $jajan_by_invoices,
             "pengajuan_jajans" => $pengajuan_jajans
         ]);
+    }
+
+    public function barangDestroy($id) {
+        $barang = Barang::findOrFail($id);
+
+        if(!$barang){
+            return redirect()->back()->with('error', 'Produk Tidak Ditemukan');
+        }
+
+        $barang->delete();
+
+        return redirect()->back()->with('success', 'Berhasil Menghapus data');
     }
 }
